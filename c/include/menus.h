@@ -1,6 +1,12 @@
-#include <common.h>
+#ifndef MENUS_H
+#define MENUS_H
 
-int main_menu()
-{
-    int choice;
-}
+#include "common.h"
+
+void main_menu_init();
+int main_menu();
+
+void view_menu_init();
+int view_menu();
+
+#endif

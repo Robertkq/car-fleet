@@ -9,8 +9,7 @@ clean:
 
 all:
 	-mkdir out
-	echo ${SRC}
-	${CC} -o ${OUTPUT_DIR}/carfleet_c ${SRC} -I${INC_DIR}/
+	${CC} -o ${OUTPUT_DIR}/carfleet_c ${SRC} -I${INC_DIR}/ -L"C:/Program Files (x86)/Windows Kits/10/Lib/10.0.19041.0/um/x64/" -luser32 
 
 run:
 	./out/carfleet_c

@@ -1,4 +1,4 @@
-4
+6
 BMW
 Coupe
 CS06ROB
@@ -15,3 +15,11 @@ Benz
 Coupe
 CS01SIL
 Black
+BMW
+Sedan
+CS01TAR
+White
+FIAT
+Sedan
+TM04HOR
+Red

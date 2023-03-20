@@ -3,7 +3,7 @@
 
 #include "common.h"
 
-car_t* ReadFromFile(int* num_of_cars);
+car_t* ReadFromFile();
 void WriteToFile();
 
 #endif

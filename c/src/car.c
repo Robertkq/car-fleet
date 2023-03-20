@@ -26,7 +26,7 @@ void remove_car(car_t* buffer, uint32_t num_cars, uint32_t pos)
 car_t* realloc_car(car_t* buffer, uint32_t num_cars, uint32_t new_cars)
 {
     car_t* new_buffer = (car_t*)malloc(sizeof(car_t)*new_cars);
-    if(new_buffer = NULL)
+    if(new_buffer == NULL)
     {
         printf("Error: couldn't allocate for %d cars\n", new_cars);
         return NULL;
@@ -38,5 +38,6 @@ car_t* realloc_car(car_t* buffer, uint32_t num_cars, uint32_t new_cars)
         my_strcpy(new_buffer[i].license_plate, buffer[i].license_plate);
         my_strcpy(new_buffer[i].color, buffer[i].color);
     }
-    
+    free(buffer);
+    return new_buffer;
 }

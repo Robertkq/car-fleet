@@ -131,6 +131,72 @@ uint32_t search_menu()
     }
 }
 
+void remove_menu_init()
+{
+
+}
+
+int remove_menu()
+{
+    static uint32_t selection_index = 0;
+    static uint32_t keys[3]      = { 0, 0, 0 },
+            old_keys[3]     = { 0, 0, 0 };
+
+    view_menu_init();
+    printf("Select a car to remove:\n");
+    for(uint32_t i = 0; i < num_cars; ++i)
+    {
+        if(selection_index == i)
+            color(2);
+        printf("%d: %s, %s, %s, %s\n", 
+            i, buffer_cars[i].brand, buffer_cars[i].type, buffer_cars[i].license_plate, buffer_cars[i].color);
+        color(7);
+    }
+    if(selection_index == num_cars)
+        color(2);
+    printf("%d: Back\n", num_cars);
+    color(7);
+    while(1)
+    {
+        for(uint32_t i = 0; i < 3; ++i)
+            old_keys[i] = keys[i];
+        keys[0] = GetAsyncKeyState(VK_DOWN);
+        keys[1] = GetAsyncKeyState(VK_UP);
+        keys[2] = GetAsyncKeyState(VK_CONTROL);
+        if(keys[0] && !old_keys[0])
+        {
+            if(selection_index == num_cars)
+                selection_index = 0;
+            else
+                ++selection_index;
+            return 1;
+        }
+        if(keys[1] && !old_keys[1])
+        {
+            if(selection_index == 0)
+                selection_index = num_cars;
+            else
+                --selection_index;
+            return 1;
+        }
+        if(keys[2] && !old_keys[2])
+        {
+            if(selection_index == num_cars)
+            {
+                return 0;
+            }
+            else
+            {
+                printf("Remove %d\n", selection_index);
+                remove_car(buffer_cars, num_cars, selection_index);
+                --num_cars;
+                return 1;
+            }
+        }
+        Sleep(10);
+    }
+}
+
 void view_menu_init()
 {
     reset_input();
@@ -212,11 +278,7 @@ uint32_t view_menu()
             }
             else if(selection_index == 3)
             {
-                uint32_t rem_car;
-                printf("Enter the index of the care you wish to remove from the list (from 0):\n");
-                scanf("%d", &rem_car);
-                remove_car(buffer_cars, num_cars, rem_car);
-                --num_cars;
+                while(remove_menu());
                 return 1;
             }
             else

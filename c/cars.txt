@@ -11,7 +11,7 @@ Benz
 Wagon
 CS02ROB
 Black
-BMW
-SUV
-CS03ZZZ
-White
+100
+200
+300
+400

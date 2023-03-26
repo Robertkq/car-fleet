@@ -4,4 +4,4 @@ University project
 
 # setup
 
-clone the repo and run `make run VER=<c/c++>`
+clone the repo and run `make run VER=<c/cpp>`

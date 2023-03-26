@@ -1,6 +1,6 @@
 #include "menus.h"
 
-char main_menu_choices[2][13];
+char main_menu_choices[2][14];
 char view_menu_choices[5][20];
 
 void edit_menu_init()
@@ -206,8 +206,8 @@ void view_menu_init()
         return;
     initialized = 1;
     my_strcpy(view_menu_choices[0], "Add Vehicle");
-    my_strcpy(view_menu_choices[1], "Edit Vehicle");
-    my_strcpy(view_menu_choices[2], "Search Vehicle");
+    my_strcpy(view_menu_choices[1], "Edit Vehicles");
+    my_strcpy(view_menu_choices[2], "Search Vehicles");
     my_strcpy(view_menu_choices[3], "Remove Vehicle");
     my_strcpy(view_menu_choices[4], "Back");
 }
@@ -298,7 +298,7 @@ void main_menu_init()
     if(initialized)
         return;
     initialized = 1;
-    my_strcpy(main_menu_choices[0], "View Vehicle");
+    my_strcpy(main_menu_choices[0], "View Vehicles");
     my_strcpy(main_menu_choices[1], "Exit");
 }
 

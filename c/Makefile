@@ -2,14 +2,15 @@ CC = clang
 OUTPUT_DIR = out
 SRC_DIR = src
 SRC = $(wildcard $(SRC_DIR)/*.c)
-INC_DIR = include
+INC_DIR = -Iinclude/
+LIB_DIR = -L"C:/Program Files (x86)/Windows Kits/10/Lib/10.0.19041.0/um/x64/"
+LIB_NAME = -luser32
 
 clean:
-	-rm -rf out
+	-rm -rf out/*
 
 all:
-	-mkdir out
-	${CC} -o ${OUTPUT_DIR}/carfleet_c.exe ${SRC} -I${INC_DIR}/ -L"C:/Program Files (x86)/Windows Kits/10/Lib/10.0.19041.0/um/x64/" -luser32 
+	${CC} -o ${OUTPUT_DIR}/carfleet_c.exe ${SRC} ${INC_DIR} ${LIB_LINKS} ${LIB_NAMES}
 
 run:
-	./out/carfleet_c
+	./out/carfleet_c.exe

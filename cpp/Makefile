@@ -12,7 +12,7 @@ WIN_DIR="C:/Program Files (x86)/Windows Kits/10/Lib/10.0.22621.0/um/"
 INCLUDE_DIR = -Iinclude/ \
 	-I${SFML_DIR}/include/ \
 	-I${IMGUI_DIR}/ \
-	-I${IMGUI-SFML_DIR}
+	-I${IMGUI-SFML_DIR}/
 
 LIB_DIR = -L${SFML_DIR}/lib/ \
 	-L${WIN_DIR}/x64/

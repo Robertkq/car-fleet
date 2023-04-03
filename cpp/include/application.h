@@ -20,6 +20,7 @@ struct Application
         void show_edit_menu();
         void show_search_menu();
         void show_about_menu();
+        void show_add_menu();
 
         template<typename ButtonFuncType>
         void list_cars(ButtonFuncType buttonFunc);

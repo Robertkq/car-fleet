@@ -11,6 +11,7 @@ struct FileManager
         void LoadFromFile(std::vector<car>& buffer);
         void SaveToFile(const std::vector<car>& buffer);
     private:
+        std::string m_filename;
         std::fstream m_file;
 };
 

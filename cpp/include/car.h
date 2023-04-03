@@ -7,7 +7,14 @@ struct car
 {
     public:
         car();
-        std::string print_resume() const;
+        car(const car& other);
+        car(car&& other) noexcept;
+        car(const std::string& brand, const std::string& type, const std::string& license_plate, const std::string& color,
+            uint32_t doors, uint32_t year, uint32_t price, uint32_t km);
+            
+        car& operator=(const car& other);
+        car& operator=(car&& other) noexcept;
+
         void print_detailed() const;
 
     public:

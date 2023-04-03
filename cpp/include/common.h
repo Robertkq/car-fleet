@@ -8,6 +8,8 @@
 #include <vector>
 #include <string>
 #include <fstream>
+#include <windows.h>
+#include <shellapi.h>
 
 enum class ui_state : uint8_t
 {
@@ -17,7 +19,8 @@ enum class ui_state : uint8_t
     REMOVE_MENU,
     SEARCH_MENU,
     DETAILED_MENU,
-    EDIT_MENU
+    EDIT_MENU,
+    ABOUT_MENU
 };
 
 inline std::string itos(int conv)

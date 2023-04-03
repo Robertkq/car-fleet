@@ -67,9 +67,13 @@ void Application::show_current_menu()
     {
         show_edit_menu();
     }
-    else if(m_state == ui_state::SERACH_MENU)
+    else if(m_state == ui_state::SEARCH_MENU)
     {
         show_search_menu();
+    }
+    else if(m_state == ui_state::ABOUT_MENU)
+    {
+        show_about_menu();
     }
 }
 
@@ -212,6 +216,12 @@ void Application::show_main_menu()
     }
     ImGui::SetCursorPosX(300);
     ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 100);
+    if(ImGui::Button("About", ImVec2{200, 30}))
+    {
+        m_state = ui_state::ABOUT_MENU;
+    }
+    ImGui::SetCursorPosX(300);
+    ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 100);
     if(ImGui::Button("Exit", ImVec2{200, 30}))
     {
         // save file info
@@ -243,6 +253,7 @@ void Application::show_view_menu()
 
 void Application::show_detailed_menu()
 {
+    static bool confirm = false;
     ImGui::SetNextWindowSize({800, 600});
     ImGui::SetNextWindowPos({0, 0});
     ImGui::Begin("Detailed menu");
@@ -250,6 +261,7 @@ void Application::show_detailed_menu()
     if(ImGui::Button("Go Back"))
     {
         m_state = ui_state::VIEW_MENU;
+        confirm = false;
     }
     ImGui::SameLine();
     if(ImGui::Button("Edit"))
@@ -257,7 +269,6 @@ void Application::show_detailed_menu()
         m_state = ui_state::EDIT_MENU;
     }
     ImGui::SameLine();
-    static bool confirm = false;
     if(ImGui::Button("Remove"))
     {
         confirm = true;
@@ -268,13 +279,135 @@ void Application::show_detailed_menu()
         ImGui::SameLine();
         if(ImGui::Button("Yes"))
         {
-            std::cout << "Remove car " << m_selected_car << "\n";
+            m_cars.erase(m_cars.begin() + m_selected_car);
         }
         ImGui::SameLine();
         if(ImGui::Button("No"))
         {
             confirm = false;
         }
+    }
+    ImGui::End();
+}
+
+void Application::show_search_menu()
+{
+    static bool show_results = false;
+    ImGui::SetNextWindowSize({800, 600});
+    ImGui::SetNextWindowPos({0, 0});
+    ImGui::Begin("Search Menu");
+    ImGuiInputTextFlags text_flags = ImGuiInputTextFlags_CharsNoBlank;
+    ImGuiInputTextFlags number_flags = ImGuiInputTextFlags_CharsDecimal | ImGuiInputTextFlags_CharsNoBlank;
+    static std::string search_brand_buff(100, '\0');
+    ImGui::Text("Search Brand: "); ImGui::SameLine(); ImGui::InputText("##Search Brand", search_brand_buff.data(), 100, text_flags);
+    static std::string search_type_buff(100, '\0');
+    ImGui::Text("Search Type: "); ImGui::SameLine(); ImGui::InputText("##Search Type", search_type_buff.data(), 100, text_flags);
+    static std::string search_license_plate_buff(100, '\0');
+    ImGui::Text("Search License Plate: "); ImGui::SameLine(); ImGui::InputText("##Search License Plate", search_license_plate_buff.data(), 100, text_flags);
+    static std::string search_color_buff(100, '\0');
+    ImGui::Text("Search Color: "); ImGui::SameLine(); ImGui::InputText("##Search Color", search_color_buff.data(), 100, text_flags);
+    static int search_doors = 0;
+    ImGui::Text("Search Doors: "); ImGui::SameLine(); ImGui::InputInt("##Search Doors", &search_doors, 1, 1, number_flags);
+    static int search_year = 0;
+    ImGui::Text("Search Year: "); ImGui::SameLine(); ImGui::InputInt("##Search Year", &search_year, 1, 1, number_flags);
+    static int search_price = 0;
+    ImGui::Text("Search Price: "); ImGui::SameLine(); ImGui::InputInt("##Search Price", &search_price, 50, 200, number_flags);
+    static int search_km = -1;
+    ImGui::Text("Kilometers: "); ImGui::SameLine(); ImGui::InputInt("##Search Kilometers", &search_km, 10, 100, number_flags);
+    if(ImGui::Button("Go Back"))
+    {
+        m_state = ui_state::MAIN_MENU;
+        show_results = false;
+    }
+    if(ImGui::Button("Search"))
+    {
+        show_results = true;
+    }
+    if(show_results)
+    {
+        static ImGuiTableFlags flags = ImGuiTableFlags_ScrollY | ImGuiTableFlags_RowBg | ImGuiTableFlags_BordersOuter | ImGuiTableFlags_BordersV | ImGuiTableFlags_Resizable | ImGuiTableFlags_Reorderable | ImGuiTableFlags_Hideable;
+        const float TEXT_BASE_HEIGHT = ImGui::GetTextLineHeightWithSpacing();
+        ImVec2 outer_size = ImVec2(0.0f, TEXT_BASE_HEIGHT * 8);
+        ImGui::BeginTable("list_cars", 5, flags, outer_size);
+        ImGui::TableSetupScrollFreeze(0, 1); // Make top row always visible
+        ImGui::TableSetupColumn("Index", ImGuiTableColumnFlags_None);
+        ImGui::TableSetupColumn("Brand", ImGuiTableColumnFlags_None);
+        ImGui::TableSetupColumn("Type", ImGuiTableColumnFlags_None);
+        ImGui::TableSetupColumn("License Plate", ImGuiTableColumnFlags_None);
+        ImGui::TableSetupColumn("Color", ImGuiTableColumnFlags_None);
+        ImGui::TableSetupColumn("", ImGuiTableColumnFlags_None);
+        ImGui::TableHeadersRow();
+        show_results = true;
+        for(uint32_t i = 0; i < m_cars.size(); ++i)
+        {
+            if(search_brand_buff == m_cars[i].m_brand || search_brand_buff == "*")
+            {
+                if(search_type_buff == m_cars[i].m_type || search_type_buff == "*")
+                {
+                    if(search_license_plate_buff == m_cars[i].m_license_plate || search_license_plate_buff == "*")
+                    {
+                        if(search_color_buff == m_cars[i].m_color || search_color_buff == "*")
+                        {
+                            if(search_doors == m_cars[i].m_doors || search_doors == 0)
+                            {
+                                if(search_year == m_cars[i].m_year || search_year == 0)
+                                {
+                                    if(search_price == m_cars[i].m_price || search_price == 0)
+                                    {
+                                        if(search_km == m_cars[i].m_km || search_km == -1)
+                                        {
+                                            ImGui::TableNextRow();
+                                            ImGui::TableSetColumnIndex(0);
+                                            ImGui::Text(itos(i).data());
+                                            ImGui::TableSetColumnIndex(1);
+                                            ImGui::Text(m_cars[i].m_brand.data());
+                                            ImGui::TableSetColumnIndex(2);
+                                            ImGui::Text(m_cars[i].m_type.data());
+                                            ImGui::TableSetColumnIndex(3);
+                                            ImGui::Text(m_cars[i].m_license_plate.data());
+                                            ImGui::TableSetColumnIndex(4);
+                                            ImGui::Text(m_cars[i].m_color.data());
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        ImGui::EndTable();
+    }
+    ImGui::End();
+}
+
+void Application::show_about_menu()
+{
+    static sf::Texture catto;
+    static int initialized = 0;
+    if(!initialized)
+    {
+        initialized = 1;
+        catto.loadFromFile("catto.jpg");
+    }
+    
+
+    ImGui::SetNextWindowSize({800, 600});
+    ImGui::SetNextWindowPos({0, 0});
+    ImGui::Begin("About Menu");
+    ImGui::SetCursorPosX(400);
+    ImGui::SetCursorPosY(150);
+    if(ImGui::Button("GitHub"))
+    {
+        ShellExecute(0, 0, "https://github.com/Robertkq/car-fleet", 0, 0 , SW_SHOW );
+    }
+    ImGui::SetCursorPosX(200);
+    ImGui::Image(catto, {400, 300});
+    
+    ImGui::SetCursorPosX(400);
+    if(ImGui::Button("Go Back"))
+    {
+        m_state = ui_state::MAIN_MENU;
     }
     ImGui::End();
 }

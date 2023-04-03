@@ -1,6 +1,6 @@
-#include "menus.hpp"
-#include "filemanager.hpp"
-#include "car.hpp"
+#include "menus.h"
+#include "filemanager.h"
+#include "car.h"
 
 uint32_t num_cars;
 car_t* buffer_cars;

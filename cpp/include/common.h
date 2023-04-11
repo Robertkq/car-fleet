@@ -4,10 +4,14 @@
 #include <SFML/Graphics.hpp>
 #include <imgui.h>
 #include <imgui-SFML.h>
+
 #include <iostream>
 #include <vector>
+#include <unordered_map>
 #include <string>
 #include <fstream>
+#include <functional>
+
 #include <windows.h>
 #include <shellapi.h>
 
@@ -16,7 +20,6 @@ enum class ui_state : uint8_t
     MAIN_MENU,
     VIEW_MENU,
     ADD_MENU,
-    REMOVE_MENU,
     SEARCH_MENU,
     DETAILED_MENU,
     EDIT_MENU,

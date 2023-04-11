@@ -1,13 +1,15 @@
+FILE ?=
+
 CXX = g++
 CXXFLAGS = -std=c++17 -m64 -DSFML_STATIC
 SRC_DIR = src
 OUTPUT_DIR = out
 APP_NAME = application.exe
 
-SFML_DIR = D:/infoVS/Headers/SFML-2.5.1
-IMGUI_DIR = D:/infoVS/Headers/imgui
-IMGUI-SFML_DIR = D:/infoVS/Headers/imgui-sfml
-WIN_DIR="C:/Program Files (x86)/Windows Kits/10/Lib/10.0.22621.0/um/"
+SFML_DIR = C:\Users\rvuia\Libraries\SFML-2.5.1
+IMGUI_DIR = C:\Users\rvuia\Libraries\imgui
+IMGUI-SFML_DIR = C:\Users\rvuia\Libraries\imgui-sfml
+WIN_DIR="C:\Program Files (x86)\Windows Kits\10\Lib\10.0.22000.0\um"
 
 INCLUDE_DIR = -Iinclude/ \
 	-I${SFML_DIR}/include/ \
@@ -38,7 +40,7 @@ OBJS := $(addprefix $(OUTPUT_DIR)/, $(notdir $(SRCS:.cpp=.o)))
 .PHONY = clean all run
 
 clean:
-	rm ${OUTPUT_DIR}/*
+	rm -rf ${OUTPUT_DIR}/*
 
 all: ${OUTPUT_DIR}/${APP_NAME}
 
@@ -60,5 +62,5 @@ ${OUTPUT_DIR}/%.o: ${IMGUI-SFML_DIR}/%.cpp
 
 
 run: ${OUTPUT_DIR}/${APP_NAME}
-	./${OUTPUT_DIR}/${APP_NAME}
+	./${OUTPUT_DIR}/${APP_NAME} ${FILE}
 

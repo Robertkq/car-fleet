@@ -4,33 +4,25 @@
 #include "common.h"
 #include "car.h"
 #include "filemanager.h"
-
+#include "menus.h"
 struct Application
 {
     public:
-        Application();
+        Application(const char* filename);
         ~Application();
-        void run();
-        
-    private:
-        void show_current_menu();
-        void show_main_menu();
-        void show_view_menu();
-        void show_detailed_menu();
-        void show_edit_menu();
-        void show_search_menu();
-        void show_about_menu();
-        void show_add_menu();
 
-        template<typename ButtonFuncType>
-        void list_cars(ButtonFuncType buttonFunc);
-    
-    private:
+        void run();
+        void list_cars(std::function<void(uint32_t)> buttonFunc);
+
+    public:
         ui_state m_state;
         sf::RenderWindow m_window;
         std::vector<car> m_cars;
         FileManager m_filemanager;
         uint32_t m_selected_car;
+        std::unordered_map<ui_state, base_menu*> m_menus;
+
+        friend struct base_menu;
 };
 
 #endif

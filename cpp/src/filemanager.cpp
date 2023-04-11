@@ -7,9 +7,11 @@ FileManager::FileManager(const std::string& filename)
 
 void FileManager::LoadFromFile(std::vector<car>& buffer)
 {
-    m_file.open(m_filename.data(), std::fstream::in);
+    m_file.open(m_filename.data());
     if(m_file.is_open())
     {
+        if(m_file.peek() == std::fstream::traits_type::eof())
+            return;
         uint32_t number_cars;
         m_file >> number_cars;
         buffer.reserve(number_cars);
@@ -31,7 +33,8 @@ void FileManager::LoadFromFile(std::vector<car>& buffer)
 
 void FileManager::SaveToFile(const std::vector<car>& buffer)
 {
-    m_file.open(m_filename.data(), std::fstream::out | std::fstream::trunc);
+    m_file.close(); // This fixes the file output problem but why ? I close the file in the reading part as well...
+    m_file.open(m_filename.data());
     if(m_file.is_open())
     {
         m_file << buffer.size() << '\n';
@@ -41,6 +44,7 @@ void FileManager::SaveToFile(const std::vector<car>& buffer)
                 buffer[i].m_color << '\n' << buffer[i].m_doors << '\n' << buffer[i].m_year << '\n' <<
                 buffer[i].m_price << '\n' << buffer[i].m_km << '\n';
         }
+        m_file.flush();
     }
     else
     {

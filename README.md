@@ -4,7 +4,9 @@ University project
 
 ---
 # Setup    
-to run `cd` into `c/` or `cpp/` and run `make run`    
+1. `cd` into `c/` or `cpp/`   
+2. mkdir `out`   
+3. type `make run` (for cpp: add `FILE="myfilename.txt")
 make sure you change the makefile variable so the libraries link works correctly
 
 ---
